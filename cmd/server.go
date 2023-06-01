@@ -12,11 +12,16 @@ import (
 func Serve(env initializers.Env) {
 	var engine = gin.Default()
 	addCors(engine)
-	db, err := initializers.ConnectToDB(env)
+	//db, err := initializers.ConnectToDB(env)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//controllers.InitRouter(engine, db, env)
+	keycloakClient, err := initializers.ConnectToKeycloak(env)
 	if err != nil {
 		log.Fatal(err)
 	}
-	controllers.InitRouter(engine, db, env)
+	controllers.InitRouter(engine, keycloakClient)
 	doc()
 	fmt.Println("Starting server on port", env.Port)
 	err = engine.Run(":" + env.Port)
