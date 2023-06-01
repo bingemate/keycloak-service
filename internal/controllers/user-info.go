@@ -12,6 +12,9 @@ func InitUserInfoController(engine *gin.RouterGroup, userInfoService *features.U
 	engine.GET("/search", func(c *gin.Context) {
 		searchUsers(c, userInfoService)
 	})
+	engine.GET("/:userID", func(c *gin.Context) {
+		getUser(c, userInfoService)
+	})
 }
 
 // @Summary Get user's username
@@ -61,4 +64,27 @@ func searchUsers(c *gin.Context, userInfoService *features.UserInfoService) {
 		return
 	}
 	c.JSON(200, toUsersResponse(users))
+}
+
+// @Summary Get user
+// @Description Get user
+// @Tags User
+// @Param userID path string true "User ID"
+// @Produce json
+// @Success 200 {object} userResponse
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Router /user-info/{userID} [get]
+func getUser(c *gin.Context, userInfoService *features.UserInfoService) {
+	userID := c.Param("userID")
+	if userID == "" {
+		c.JSON(400, errorResponse{Error: "userID must not be empty"})
+		return
+	}
+	user, err := userInfoService.GetUser(userID)
+	if err != nil {
+		c.JSON(500, errorResponse{Error: err.Error()})
+		return
+	}
+	c.JSON(200, toUserResponse(user))
 }
