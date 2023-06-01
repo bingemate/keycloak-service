@@ -10,5 +10,6 @@ import (
 func InitRouter(engine *gin.Engine, keycloakClient *initializers.KeycloakClient) {
 	var keycloakServiceGroup = engine.Group("/keycloak-service")
 	var userInfoService = features.NewUserInfoService(keycloakClient)
+	InitPingController(keycloakServiceGroup.Group("/ping"))
 	InitUserInfoController(keycloakServiceGroup.Group("/user-info"), userInfoService)
 }
