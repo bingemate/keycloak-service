@@ -16,6 +16,29 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/ping": {
+            "get": {
+                "description": "Ping",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Ping"
+                ],
+                "summary": "Ping",
+                "responses": {
+                    "200": {
+                        "description": "pong",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/user-info/{userID}/username": {
             "get": {
                 "description": "Get user's username",
