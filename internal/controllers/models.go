@@ -38,7 +38,7 @@ func toUserResponse(user *gocloak.User) *userResponse {
 }
 
 func toUsersResponse(users []*gocloak.User) []*userResponse {
-	var usersResponse []*userResponse
+	var usersResponse []*userResponse = make([]*userResponse, 0)
 	for _, user := range users {
 		usersResponse = append(usersResponse, toUserResponse(user))
 	}

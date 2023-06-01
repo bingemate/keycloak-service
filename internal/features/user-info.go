@@ -49,6 +49,14 @@ func (s *UserInfoService) SearchUsers(username string, includeRoles bool) ([]*go
 			Exact:  gocloak.BoolP(false),
 		},
 	)
+	if err != nil {
+		log.Println("Error getting username", err)
+		return nil, err
+	}
+	if users == nil {
+		return []*gocloak.User{}, nil
+	}
+
 	if includeRoles {
 
 		for _, user := range users {
