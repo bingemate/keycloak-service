@@ -39,6 +39,56 @@ const docTemplate = `{
                 }
             }
         },
+        "/user-info/search": {
+            "get": {
+                "description": "Search users",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Search users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "query",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Include roles",
+                        "name": "includeRoles",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/controllers.userResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/user-info/{userID}/username": {
             "get": {
                 "description": "Get user's username",
@@ -88,6 +138,45 @@ const docTemplate = `{
                 "error": {
                     "type": "string",
                     "example": "error message"
+                }
+            }
+        },
+        "controllers.userResponse": {
+            "type": "object",
+            "properties": {
+                "createdTimestamp": {
+                    "type": "integer",
+                    "example": 1600000000000
+                },
+                "email": {
+                    "type": "string",
+                    "example": "example@email.com"
+                },
+                "firstName": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123e4567-e89b-12d3-a456-426614174000"
+                },
+                "lastName": {
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "[\"admin\"",
+                        " \"user\"]"
+                    ]
+                },
+                "username": {
+                    "type": "string",
+                    "example": "user1"
                 }
             }
         },

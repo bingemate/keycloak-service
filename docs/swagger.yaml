@@ -5,6 +5,34 @@ definitions:
         example: error message
         type: string
     type: object
+  controllers.userResponse:
+    properties:
+      createdTimestamp:
+        example: 1600000000000
+        type: integer
+      email:
+        example: example@email.com
+        type: string
+      firstName:
+        example: John
+        type: string
+      id:
+        example: 123e4567-e89b-12d3-a456-426614174000
+        type: string
+      lastName:
+        example: Doe
+        type: string
+      roles:
+        example:
+        - '["admin"'
+        - ' "user"]'
+        items:
+          type: string
+        type: array
+      username:
+        example: user1
+        type: string
+    type: object
   controllers.usernameResponse:
     properties:
       username:
@@ -54,6 +82,39 @@ paths:
           schema:
             $ref: '#/definitions/controllers.errorResponse'
       summary: Get user's username
+      tags:
+      - User
+  /user-info/search:
+    get:
+      description: Search users
+      parameters:
+      - description: Username
+        in: query
+        name: query
+        required: true
+        type: string
+      - description: Include roles
+        in: query
+        name: includeRoles
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controllers.userResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Search users
       tags:
       - User
 swagger: "2.0"
