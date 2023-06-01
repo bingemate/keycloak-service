@@ -9,6 +9,9 @@ func InitUserInfoController(engine *gin.RouterGroup, userInfoService *features.U
 	engine.GET("/:userID/username", func(c *gin.Context) {
 		getUsername(c, userInfoService)
 	})
+	engine.GET("/search", func(c *gin.Context) {
+		searchUsers(c, userInfoService)
+	})
 }
 
 // @Summary Get user's username
@@ -32,4 +35,30 @@ func getUsername(c *gin.Context, userInfoService *features.UserInfoService) {
 		return
 	}
 	c.JSON(200, usernameResponse{Username: username})
+}
+
+// @Summary Search users
+// @Description Search users
+// @Tags User
+// @Param query query string true "Username"
+// @Param includeRoles query bool false "Include roles"
+// @Produce json
+// @Success 200 {array} userResponse
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Router /user-info/search [get]
+func searchUsers(c *gin.Context, userInfoService *features.UserInfoService) {
+	query := c.Query("query")
+	if query == "" {
+		c.JSON(400, errorResponse{Error: "query must not be empty"})
+		return
+	}
+	includeRoles := c.Query("includeRoles") == "true"
+
+	users, err := userInfoService.SearchUsers(query, includeRoles)
+	if err != nil {
+		c.JSON(500, errorResponse{Error: err.Error()})
+		return
+	}
+	c.JSON(200, toUsersResponse(users))
 }
