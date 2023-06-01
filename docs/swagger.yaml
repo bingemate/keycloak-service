@@ -1,4 +1,44 @@
+definitions:
+  controllers.errorResponse:
+    properties:
+      error:
+        example: error message
+        type: string
+    type: object
+  controllers.usernameResponse:
+    properties:
+      username:
+        example: user1
+        type: string
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /user-info/{userID}/username:
+    get:
+      description: Get user's username
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.usernameResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Get user's username
+      tags:
+      - User
 swagger: "2.0"
