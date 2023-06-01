@@ -13,13 +13,13 @@ definitions:
       email:
         example: example@email.com
         type: string
-      firstName:
+      firstname:
         example: John
         type: string
       id:
         example: 123e4567-e89b-12d3-a456-426614174000
         type: string
-      lastName:
+      lastname:
         example: Doe
         type: string
       roles:
@@ -57,6 +57,33 @@ paths:
       summary: Ping
       tags:
       - Ping
+  /user-info/{userID}:
+    get:
+      description: Get user
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.userResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Get user
+      tags:
+      - User
   /user-info/{userID}/username:
     get:
       description: Get user's username

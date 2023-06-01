@@ -58,7 +58,6 @@ func (s *UserInfoService) SearchUsers(username string, includeRoles bool) ([]*go
 	}
 
 	if includeRoles {
-
 		for _, user := range users {
 			roles, err := s.keycloakClient.Gocloak.GetRealmRolesByUserID(
 				context.Background(),
@@ -67,7 +66,7 @@ func (s *UserInfoService) SearchUsers(username string, includeRoles bool) ([]*go
 				*user.ID,
 			)
 			if err != nil {
-				log.Println("Error getting username", err)
+				log.Println("Error getting user's roles", err)
 				return nil, err
 			}
 			rolesArray := make([]string, len(roles))
@@ -77,10 +76,40 @@ func (s *UserInfoService) SearchUsers(username string, includeRoles bool) ([]*go
 			user.RealmRoles = &rolesArray
 		}
 	}
+
+	return users, nil
+}
+
+func (s *UserInfoService) GetUser(userID string) (*gocloak.User, error) {
+	err := s.keycloakClient.EnsureToken(context.Background())
 	if err != nil {
 		log.Println("Error getting username", err)
 		return nil, err
 	}
-
-	return users, nil
+	user, err := s.keycloakClient.Gocloak.GetUserByID(
+		context.Background(),
+		s.keycloakClient.Token.AccessToken,
+		s.keycloakClient.Realm,
+		userID,
+	)
+	if err != nil {
+		log.Println("Error getting user", err)
+		return nil, err
+	}
+	roles, err := s.keycloakClient.Gocloak.GetRealmRolesByUserID(
+		context.Background(),
+		s.keycloakClient.Token.AccessToken,
+		s.keycloakClient.Realm,
+		*user.ID,
+	)
+	if err != nil {
+		log.Println("Error getting user's roles", err)
+		return nil, err
+	}
+	rolesArray := make([]string, len(roles))
+	for i, role := range roles {
+		rolesArray[i] = *role.Name
+	}
+	user.RealmRoles = &rolesArray
+	return user, nil
 }

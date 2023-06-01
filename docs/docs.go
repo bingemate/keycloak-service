@@ -89,6 +89,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/user-info/{userID}": {
+            "get": {
+                "description": "Get user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.userResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/user-info/{userID}/username": {
             "get": {
                 "description": "Get user's username",
@@ -152,7 +193,7 @@ const docTemplate = `{
                     "type": "string",
                     "example": "example@email.com"
                 },
-                "firstName": {
+                "firstname": {
                     "type": "string",
                     "example": "John"
                 },
@@ -160,7 +201,7 @@ const docTemplate = `{
                     "type": "string",
                     "example": "123e4567-e89b-12d3-a456-426614174000"
                 },
-                "lastName": {
+                "lastname": {
                     "type": "string",
                     "example": "Doe"
                 },
