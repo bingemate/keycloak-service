@@ -14,8 +14,8 @@ type userResponse struct {
 	ID               string    `json:"id" example:"123e4567-e89b-12d3-a456-426614174000"`
 	CreatedTimestamp int64     `json:"createdTimestamp" example:"1600000000000"`
 	Username         string    `json:"username" example:"user1"`
-	FirstName        string    `json:"firstName" example:"John"`
-	LastName         string    `json:"lastName" example:"Doe"`
+	FirstName        string    `json:"firstname" example:"John"`
+	LastName         string    `json:"lastname" example:"Doe"`
 	Email            string    `json:"email" example:"example@email.com"`
 	Roles            *[]string `json:"roles" example:"[\"admin\", \"user\"]"`
 }

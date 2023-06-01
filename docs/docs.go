@@ -193,7 +193,7 @@ const docTemplate = `{
                     "type": "string",
                     "example": "example@email.com"
                 },
-                "firstName": {
+                "firstname": {
                     "type": "string",
                     "example": "John"
                 },
@@ -201,7 +201,7 @@ const docTemplate = `{
                     "type": "string",
                     "example": "123e4567-e89b-12d3-a456-426614174000"
                 },
-                "lastName": {
+                "lastname": {
                     "type": "string",
                     "example": "Doe"
                 },

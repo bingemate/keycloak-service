@@ -13,13 +13,13 @@ definitions:
       email:
         example: example@email.com
         type: string
-      firstName:
+      firstname:
         example: John
         type: string
       id:
         example: 123e4567-e89b-12d3-a456-426614174000
         type: string
-      lastName:
+      lastname:
         example: Doe
         type: string
       roles:
