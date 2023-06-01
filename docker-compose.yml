@@ -1,31 +1,29 @@
 version: '3.9'
 
 services:
-  db:
-    container_name: postgres
-    image: bitnami/postgresql:13
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    environment:
-      POSTGRESQL_USERNAME: 'postgres'
-      POSTGRESQL_PASSWORD: 'postgres'
-      POSTGRESQL_DATABASE: 'postgres'
-    ports:
-      - "5432:5432"
-  app:
-    depends_on:
-      - db
-    container_name: app
+#  db:
+#    container_name: postgres
+#    image: bitnami/postgresql:13
+#    volumes:
+#      - db-data:/var/lib/postgresql/data
+#    environment:
+#      POSTGRESQL_USERNAME: 'postgres'
+#      POSTGRESQL_PASSWORD: 'postgres'
+#      POSTGRESQL_DATABASE: 'postgres'
+#    ports:
+#      - "5432:5432"
+  app-keycloak-service:
+#    depends_on:
+#      - db
+    container_name: app-keycloak-service
     build: .
     volumes:
       - ./logs:/app/logs
     environment:
-      DB_SYNC: true
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_NAME: postgres
+      KEYCLOAK_URL: https://auth.bingemate.fr
+      REALM: bingemate-local
+      CLIENT_ID: keycloak-service
+      CLIENT_SECRET: XZzSyO1dgK90nXZbG0CVSr8id52ayl4T
     ports:
       - "8080:8080"
     deploy:
@@ -33,5 +31,5 @@ services:
         limits:
           memory: 30M
 volumes:
-  db-data:
+#  db-data:
   app-logs:
