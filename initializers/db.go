@@ -1,6 +1,6 @@
 package initializers
 
-import (
+/*import (
 	"fmt"
 	"github.com/bingemate/media-go-pkg/repository"
 	"gorm.io/driver/postgres"
@@ -28,4 +28,4 @@ func ConnectToDB(env Env) (*gorm.DB, error) {
 		log.Println("Database synced")
 	}
 	return db, nil
-}
+}*/
