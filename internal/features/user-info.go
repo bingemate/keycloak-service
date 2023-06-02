@@ -96,7 +96,7 @@ func (s *UserInfoService) GetUser(userID string) (*gocloak.User, error) {
 		log.Println("Error getting user", err)
 		return nil, err
 	}
-	roles, err := s.keycloakClient.Gocloak.GetRealmRolesByUserID(
+	roles, err := s.keycloakClient.Gocloak.GetCompositeRealmRolesByUserID(
 		context.Background(),
 		s.keycloakClient.Token.AccessToken,
 		s.keycloakClient.Realm,
