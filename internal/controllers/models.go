@@ -20,6 +20,26 @@ type userResponse struct {
 	Roles            *[]string `json:"roles" example:"[\"admin\", \"user\"]"`
 }
 
+type userResults struct {
+	Results []*userResponse `json:"results"`
+	Total   int             `json:"total"`
+}
+
+type updatePasswordRequest struct {
+	Password string `json:"password" example:"password"`
+}
+
+type roleRequest struct {
+	Role string `json:"role" example:"admin"`
+}
+
+type userUpdateRequest struct {
+	Username  string `json:"username" example:"user1"`
+	FirstName string `json:"firstname" example:"John"`
+	LastName  string `json:"lastname" example:"Doe"`
+	Email     string `json:"email" example:"email@example.com"`
+}
+
 func toUserResponse(user *gocloak.User) *userResponse {
 	response := &userResponse{
 		ID:               *user.ID,
