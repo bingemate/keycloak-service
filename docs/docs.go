@@ -468,6 +468,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/user-info/username/{userID}": {
+            "get": {
+                "description": "Get user's username",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User Info"
+                ],
+                "summary": "Get user's username",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.usernameResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/user-info/{userID}": {
             "get": {
                 "description": "Get user",
@@ -492,47 +533,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controllers.userResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.errorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.errorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/user-info/{userID}/username": {
-            "get": {
-                "description": "Get user's username",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User Info"
-                ],
-                "summary": "Get user's username",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "userID",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.usernameResponse"
                         }
                     },
                     "400": {

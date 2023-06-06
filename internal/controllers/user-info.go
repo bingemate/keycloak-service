@@ -6,7 +6,7 @@ import (
 )
 
 func InitUserInfoController(engine *gin.RouterGroup, userInfoService *features.UserInfoService) {
-	engine.GET("/:userID/username", func(c *gin.Context) {
+	engine.GET("/username/:userID", func(c *gin.Context) {
 		getUsername(c, userInfoService)
 	})
 	engine.GET("/search", func(c *gin.Context) {
@@ -25,7 +25,7 @@ func InitUserInfoController(engine *gin.RouterGroup, userInfoService *features.U
 // @Success 200 {object} usernameResponse
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
-// @Router /user-info/{userID}/username [get]
+// @Router /user-info/username/{userID} [get]
 func getUsername(c *gin.Context, userInfoService *features.UserInfoService) {
 	userID := c.Param("userID")
 	if userID == "" {

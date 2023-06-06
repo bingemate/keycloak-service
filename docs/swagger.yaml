@@ -370,33 +370,6 @@ paths:
       summary: Get user
       tags:
       - User Info
-  /user-info/{userID}/username:
-    get:
-      description: Get user's username
-      parameters:
-      - description: User ID
-        in: path
-        name: userID
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/controllers.usernameResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/controllers.errorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/controllers.errorResponse'
-      summary: Get user's username
-      tags:
-      - User Info
   /user-info/search:
     get:
       description: Search users
@@ -428,6 +401,33 @@ paths:
           schema:
             $ref: '#/definitions/controllers.errorResponse'
       summary: Search users
+      tags:
+      - User Info
+  /user-info/username/{userID}:
+    get:
+      description: Get user's username
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.usernameResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Get user's username
       tags:
       - User Info
 swagger: "2.0"
