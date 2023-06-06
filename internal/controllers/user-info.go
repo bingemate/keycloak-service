@@ -6,7 +6,7 @@ import (
 )
 
 func InitUserInfoController(engine *gin.RouterGroup, userInfoService *features.UserInfoService) {
-	engine.GET("/:userID/username", func(c *gin.Context) {
+	engine.GET("/username/:userID", func(c *gin.Context) {
 		getUsername(c, userInfoService)
 	})
 	engine.GET("/search", func(c *gin.Context) {
@@ -19,13 +19,13 @@ func InitUserInfoController(engine *gin.RouterGroup, userInfoService *features.U
 
 // @Summary Get user's username
 // @Description Get user's username
-// @Tags User
+// @Tags User Info
 // @Param userID path string true "User ID"
 // @Produce json
 // @Success 200 {object} usernameResponse
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
-// @Router /user-info/{userID}/username [get]
+// @Router /user-info/username/{userID} [get]
 func getUsername(c *gin.Context, userInfoService *features.UserInfoService) {
 	userID := c.Param("userID")
 	if userID == "" {
@@ -42,7 +42,7 @@ func getUsername(c *gin.Context, userInfoService *features.UserInfoService) {
 
 // @Summary Search users
 // @Description Search users
-// @Tags User
+// @Tags User Info
 // @Param query query string true "Username"
 // @Param includeRoles query bool false "Include roles"
 // @Produce json
@@ -68,7 +68,7 @@ func searchUsers(c *gin.Context, userInfoService *features.UserInfoService) {
 
 // @Summary Get user
 // @Description Get user
-// @Tags User
+// @Tags User Info
 // @Param userID path string true "User ID"
 // @Produce json
 // @Success 200 {object} userResponse

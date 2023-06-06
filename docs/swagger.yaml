@@ -5,6 +5,18 @@ definitions:
         example: error message
         type: string
     type: object
+  controllers.roleRequest:
+    properties:
+      role:
+        example: admin
+        type: string
+    type: object
+  controllers.updatePasswordRequest:
+    properties:
+      password:
+        example: password
+        type: string
+    type: object
   controllers.userResponse:
     properties:
       createdTimestamp:
@@ -33,6 +45,30 @@ definitions:
         example: user1
         type: string
     type: object
+  controllers.userResults:
+    properties:
+      results:
+        items:
+          $ref: '#/definitions/controllers.userResponse'
+        type: array
+      total:
+        type: integer
+    type: object
+  controllers.userUpdateRequest:
+    properties:
+      email:
+        example: email@example.com
+        type: string
+      firstname:
+        example: John
+        type: string
+      lastname:
+        example: Doe
+        type: string
+      username:
+        example: user1
+        type: string
+    type: object
   controllers.usernameResponse:
     properties:
       username:
@@ -57,6 +93,256 @@ paths:
       summary: Ping
       tags:
       - Ping
+  /user-admin/edit/{userID}:
+    put:
+      description: Update user
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: string
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.userUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.userResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Update user
+      tags:
+      - User Admin
+  /user-admin/edit/{userID}/password:
+    put:
+      description: Update user password
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: string
+      - description: Password
+        in: body
+        name: password
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.updatePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Password updated
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Update user password
+      tags:
+      - User Admin
+  /user-admin/roles:
+    get:
+      description: Get roles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Get roles
+      tags:
+      - User Admin
+  /user-admin/roles/{userID}:
+    delete:
+      description: Remove role from user
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: string
+      - description: Role
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.roleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Role removed
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Remove role from user
+      tags:
+      - User Admin
+    put:
+      description: Add role to user
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: string
+      - description: Role
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.roleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Role added
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Add role to user
+      tags:
+      - User Admin
+  /user-admin/search:
+    get:
+      description: Search users
+      parameters:
+      - description: Username
+        in: query
+        name: query
+        type: string
+      - description: Page size
+        in: query
+        name: page
+        type: integer
+      - description: Page number
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.userResults'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Search users
+      tags:
+      - User Admin
+  /user-edit:
+    put:
+      description: Update user infos
+      parameters:
+      - description: User ID
+        in: header
+        name: user-id
+        required: true
+        type: string
+      - description: User update request
+        in: body
+        name: userUpdateRequest
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.userUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.userResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Update user
+      tags:
+      - User Edit
+  /user-edit/password:
+    put:
+      description: Update user password
+      parameters:
+      - description: User ID
+        in: header
+        name: user-id
+        required: true
+        type: string
+      - description: User password update request
+        in: body
+        name: userPasswordUpdateRequest
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.updatePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Password updated
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Update user password
+      tags:
+      - User Edit
   /user-info/{userID}:
     get:
       description: Get user
@@ -83,34 +369,7 @@ paths:
             $ref: '#/definitions/controllers.errorResponse'
       summary: Get user
       tags:
-      - User
-  /user-info/{userID}/username:
-    get:
-      description: Get user's username
-      parameters:
-      - description: User ID
-        in: path
-        name: userID
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/controllers.usernameResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/controllers.errorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/controllers.errorResponse'
-      summary: Get user's username
-      tags:
-      - User
+      - User Info
   /user-info/search:
     get:
       description: Search users
@@ -143,5 +402,32 @@ paths:
             $ref: '#/definitions/controllers.errorResponse'
       summary: Search users
       tags:
-      - User
+      - User Info
+  /user-info/username/{userID}:
+    get:
+      description: Get user's username
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.usernameResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Get user's username
+      tags:
+      - User Info
 swagger: "2.0"
