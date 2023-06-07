@@ -370,6 +370,29 @@ paths:
       summary: Get user
       tags:
       - User Info
+  /user-info/me:
+    get:
+      description: Get current user
+      parameters:
+      - description: User ID
+        in: header
+        name: user-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.userResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Get current user
+      tags:
+      - User Info
   /user-info/search:
     get:
       description: Search users
