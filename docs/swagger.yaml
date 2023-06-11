@@ -93,6 +93,33 @@ paths:
       summary: Ping
       tags:
       - Ping
+  /user-admin/delete/{userID}:
+    delete:
+      description: Delete user
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User deleted
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Delete user
+      tags:
+      - User Admin
   /user-admin/edit/{userID}:
     put:
       description: Update user
@@ -278,6 +305,32 @@ paths:
       tags:
       - User Admin
   /user-edit:
+    delete:
+      description: Delete user
+      parameters:
+      - description: User ID
+        in: header
+        name: user-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User deleted
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Delete user
+      tags:
+      - User Edit
     put:
       description: Update user infos
       parameters:
