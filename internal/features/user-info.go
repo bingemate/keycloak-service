@@ -83,7 +83,7 @@ func (s *UserInfoService) SearchUsers(username string, includeRoles bool) ([]*go
 func (s *UserInfoService) GetUser(userID string) (*gocloak.User, error) {
 	err := s.keycloakClient.EnsureToken(context.Background())
 	if err != nil {
-		log.Println("Error getting username", err)
+		log.Println("Error getting user", err)
 		return nil, err
 	}
 	user, err := s.keycloakClient.Gocloak.GetUserByID(
