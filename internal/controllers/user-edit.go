@@ -6,13 +6,13 @@ import (
 )
 
 func InitUserEditController(engine *gin.RouterGroup, userEditService *features.UserEditService) {
-	engine.PUT("/", func(c *gin.Context) {
+	engine.PUT("", func(c *gin.Context) {
 		updateUser(c, userEditService)
 	})
 	engine.PUT("/password", func(c *gin.Context) {
 		updateUserPassword(c, userEditService)
 	})
-	engine.DELETE("/", func(c *gin.Context) {
+	engine.DELETE("", func(c *gin.Context) {
 		deleteUser(c, userEditService)
 	})
 }
