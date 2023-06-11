@@ -25,6 +25,9 @@ func InitUserAdminController(engine *gin.RouterGroup, userEditService *features.
 	engine.GET("/roles", func(c *gin.Context) {
 		getRoles(c, userInfoService)
 	})
+	engine.DELETE("/delete/:userID", func(c *gin.Context) {
+		adminDeleteUser(c, userEditService)
+	})
 }
 
 // @Summary Search users
@@ -190,4 +193,26 @@ func getRoles(c *gin.Context, userInfoService *features.UserInfoService) {
 		return
 	}
 	c.JSON(200, roles)
+}
+
+// @Summary Delete user
+// @Description Delete user
+// @Tags User Admin
+// @Param userID path string true "User ID"
+// @Produce json
+// @Success 200 {string} string "User deleted"
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Router /user-admin/delete/{userID} [delete]
+func adminDeleteUser(c *gin.Context, userEditService *features.UserEditService) {
+	userID := c.Param("userID")
+	if userID == "" {
+		c.JSON(400, errorResponse{Error: "userID must not be empty"})
+		return
+	}
+	if err := userEditService.DeleteUser(userID); err != nil {
+		c.JSON(500, errorResponse{Error: err.Error()})
+		return
+	}
+	c.JSON(200, "User deleted")
 }
