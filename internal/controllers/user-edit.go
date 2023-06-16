@@ -6,11 +6,14 @@ import (
 )
 
 func InitUserEditController(engine *gin.RouterGroup, userEditService *features.UserEditService) {
-	engine.PUT("/", func(c *gin.Context) {
+	engine.PUT("", func(c *gin.Context) {
 		updateUser(c, userEditService)
 	})
 	engine.PUT("/password", func(c *gin.Context) {
 		updateUserPassword(c, userEditService)
+	})
+	engine.DELETE("", func(c *gin.Context) {
+		deleteUser(c, userEditService)
 	})
 }
 
@@ -72,4 +75,27 @@ func updateUserPassword(c *gin.Context, userEditService *features.UserEditServic
 		return
 	}
 	c.JSON(200, "Password updated")
+}
+
+// @Summary Delete user
+// @Description Delete user
+// @Tags User Edit
+// @Param user-id header string true "User ID"
+// @Produce json
+// @Success 200 {string} string "User deleted"
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Router /user-edit [delete]
+func deleteUser(c *gin.Context, userEditService *features.UserEditService) {
+	userID := c.GetHeader("user-id")
+	if userID == "" {
+		c.JSON(400, errorResponse{Error: "user-id must not be empty"})
+		return
+	}
+	err := userEditService.DeleteUser(userID)
+	if err != nil {
+		c.JSON(500, errorResponse{Error: err.Error()})
+		return
+	}
+	c.JSON(200, "User deleted")
 }
