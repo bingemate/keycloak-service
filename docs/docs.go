@@ -39,6 +39,67 @@ const docTemplate = `{
                 }
             }
         },
+        "/user-admin/count": {
+            "get": {
+                "description": "Count users",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User Admin"
+                ],
+                "summary": "Count users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user-admin/count/{role}": {
+            "get": {
+                "description": "Count users by role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User Admin"
+                ],
+                "summary": "Count users by role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Role",
+                        "name": "role",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/user-admin/delete/{userID}": {
             "delete": {
                 "description": "Delete user",

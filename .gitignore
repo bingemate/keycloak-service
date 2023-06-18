@@ -25,3 +25,5 @@ go.work
 gin.log
 
 logs/golang-app.log
+
+.idea/

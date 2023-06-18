@@ -190,3 +190,38 @@ func (s *UserInfoService) GetAvailableRoles() (*[]string, error) {
 	}
 	return &roleNames, nil
 }
+
+func (s *UserInfoService) CountUsers() (int, error) {
+	err := s.keycloakClient.EnsureToken(context.Background())
+	if err != nil {
+		return 0, err
+	}
+	count, err := s.keycloakClient.Gocloak.GetUserCount(
+		context.Background(),
+		s.keycloakClient.Token.AccessToken,
+		s.keycloakClient.Realm,
+		gocloak.GetUsersParams{},
+	)
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+func (s *UserInfoService) CountUsersByRole(role string) (int, error) {
+	err := s.keycloakClient.EnsureToken(context.Background())
+	if err != nil {
+		return 0, err
+	}
+	count, err := s.keycloakClient.Gocloak.GetUsersByRoleName(
+		context.Background(),
+		s.keycloakClient.Token.AccessToken,
+		s.keycloakClient.Realm,
+		role,
+		gocloak.GetUsersByRoleParams{},
+	)
+	if err != nil {
+		return 0, err
+	}
+	return len(count), nil
+}
