@@ -93,6 +93,46 @@ paths:
       summary: Ping
       tags:
       - Ping
+  /user-admin/count:
+    get:
+      description: Count users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Count users
+      tags:
+      - User Admin
+  /user-admin/count/{role}:
+    get:
+      description: Count users by role
+      parameters:
+      - description: Role
+        in: path
+        name: role
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.errorResponse'
+      summary: Count users by role
+      tags:
+      - User Admin
   /user-admin/delete/{userID}:
     delete:
       description: Delete user

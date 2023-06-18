@@ -28,6 +28,12 @@ func InitUserAdminController(engine *gin.RouterGroup, userEditService *features.
 	engine.DELETE("/delete/:userID", func(c *gin.Context) {
 		adminDeleteUser(c, userEditService)
 	})
+	engine.GET("/count", func(c *gin.Context) {
+		adminCountUsers(c, userInfoService)
+	})
+	engine.GET("/count/:role", func(c *gin.Context) {
+		adminCountUsersByRole(c, userInfoService)
+	})
 }
 
 // @Summary Search users
@@ -215,4 +221,42 @@ func adminDeleteUser(c *gin.Context, userEditService *features.UserEditService) 
 		return
 	}
 	c.JSON(200, "User deleted")
+}
+
+// @Summary Count users
+// @Description Count users
+// @Tags User Admin
+// @Produce json
+// @Success 200 {integer} integer
+// @Failure 500 {object} errorResponse
+// @Router /user-admin/count [get]
+func adminCountUsers(c *gin.Context, userInfoService *features.UserInfoService) {
+	count, err := userInfoService.CountUsers()
+	if err != nil {
+		c.JSON(500, errorResponse{Error: err.Error()})
+		return
+	}
+	c.JSON(200, count)
+}
+
+// @Summary Count users by role
+// @Description Count users by role
+// @Tags User Admin
+// @Param role path string true "Role"
+// @Produce json
+// @Success 200 {integer} integer
+// @Failure 500 {object} errorResponse
+// @Router /user-admin/count/{role} [get]
+func adminCountUsersByRole(c *gin.Context, userInfoService *features.UserInfoService) {
+	role := c.Param("role")
+	if role == "" {
+		c.JSON(400, errorResponse{Error: "role must not be empty"})
+		return
+	}
+	count, err := userInfoService.CountUsersByRole(role)
+	if err != nil {
+		c.JSON(500, errorResponse{Error: err.Error()})
+		return
+	}
+	c.JSON(200, count)
 }
