@@ -3,7 +3,7 @@ module github.com/bingemate/keycloak-service
 go 1.20
 
 require (
-	github.com/Nerzal/gocloak/v13 v13.7.0
+	github.com/Nerzal/gocloak/v13 v13.8.0
 	github.com/caarlos0/env/v8 v8.0.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/joho/godotenv v1.5.1
